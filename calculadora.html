@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Simples</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        input, select, button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        #resultado {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Calculadora</h2>
+        <label>Valor 1:</label>
+        <input type="text" id="valor1" placeholder="Ex: 1234,56">
+        
+        <label>Operação:</label>
+        <select id="operacao">
+            <option value="soma">+</option>
+            <option value="subtracao">-</option>
+            <option value="multiplicacao">×</option>
+        </select>
+
+        <label>Valor 2:</label>
+        <input type="text" id="valor2" placeholder="Ex: 78,90">
+        
+        <button onclick="calcular()">Calcular</button>
+
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        function calcular() {
+            let v1 = document.getElementById("valor1").value.replace(",", ".");
+            let v2 = document.getElementById("valor2").value.replace(",", ".");
+            let operacao = document.getElementById("operacao").value;
+
+            if (isNaN(v1) || isNaN(v2) || v1 === "" || v2 === "") {
+                document.getElementById("resultado").innerText = "Por favor, insira valores válidos!";
+                return;
+            }
+
+            let num1 = parseFloat(v1);
+            let num2 = parseFloat(v2);
+            let resultado = 0;
+
+            if (operacao === "soma") {
+                resultado = num1 + num2;
+            } else if (operacao === "subtracao") {
+                resultado = num1 - num2;
+            } else if (operacao === "multiplicacao") {
+                resultado = num1 * num2;
+            }
+
+            let resultadoFormatado = resultado.toFixed(2).replace(".", ",");
+            document.getElementById("resultado").innerText = "Resultado: " + resultadoFormatado;
+
+            copiarParaClipboard(resultadoFormatado);
+        }
+
+        function copiarParaClipboard(texto) {
+            const tempInput = document.createElement("input");
+            tempInput.value = texto;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+        }
+    </script>
+</body>
+</html>
